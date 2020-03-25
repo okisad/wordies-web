@@ -21,8 +21,13 @@ const fetch = async () => {
         let words = response.data.data;
         console.log(i + '/' + 3500);
         for(const w of words){
-            if(w && w.expression && w.expression.length > 0){
-                await axios.get('http://localhost:8080/words/'+w.expression);
+            if(w && w.expression && w.expression.length > 0 && !w.expression.includes('/')){
+                axios.get('http://localhost:8080/words/'+w.expression)
+                    .then(function(res){
+
+                    },function(err){
+                        console.log('error ' + w);
+                    });
                 fs.appendFile('words.txt', w.expression + '\n', function (err) {
                     if (err) throw err;
                     //console.log('Saved!');
